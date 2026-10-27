@@ -1,0 +1,448 @@
+{
+  "aggiornato": "2026-10-27",
+  "istantanee": [
+    "2026-10-27"
+  ],
+  "codici": [
+    "B100",
+    "B101",
+    "B102",
+    "B103",
+    "B104",
+    "B201",
+    "B301",
+    "B302",
+    "B400",
+    "B401",
+    "B402",
+    "B403",
+    "B404",
+    "B405",
+    "B406",
+    "B407",
+    "B601",
+    "B701",
+    "B702",
+    "B704",
+    "B705",
+    "B706",
+    "B707",
+    "B708",
+    "B709",
+    "B800",
+    "B801",
+    "B802",
+    "B803",
+    "B804",
+    "B805",
+    "B807",
+    "B900",
+    "B901",
+    "B902",
+    "B903",
+    "B904",
+    "B906",
+    "B909",
+    "B910",
+    "B911",
+    "B912",
+    "B913",
+    "C101",
+    "C200",
+    "C201",
+    "C202",
+    "C203",
+    "C204"
+  ],
+  "categorie": [
+    {
+      "codice": "B100",
+      "label": "Campeggi e aree attrezzate per camper e roulotte",
+      "gruppo": "B",
+      "categoria": "Campeggi e aree attrezzate per camper e roulotte",
+      "descrizione": "Sottocategoria non indicata nel file del Ministero"
+    },
+    {
+      "codice": "B101",
+      "label": "Campeggi e aree camper",
+      "gruppo": "B",
+      "categoria": "Campeggi e aree attrezzate per camper e roulotte",
+      "descrizione": "Esercizi ricettivi che espletano attività di fornitura, a persone che soggiornano per brevi periodi, di spazi e servizi per camper, roulotte in aree di sosta attrezzate e campeggi. I campeggi, nello specifico, sono esercizi ricettivi aperti al pubblico, a gestione unitaria, attrezzati su aree recintate per la sosta ed il soggiorno di turisti provvisti, di norma, di tende o di altri mezzi autonomi di pernottamento."
+    },
+    {
+      "codice": "B102",
+      "label": "Campeggi itineranti o mobili",
+      "gruppo": "B",
+      "categoria": "Campeggi e aree attrezzate per camper e roulotte",
+      "descrizione": "Forme alternative di campeggio che rispondono a precise necessità dell’utente (campeggi itineranti, campeggi fissi, campeggi mobili)"
+    },
+    {
+      "codice": "B103",
+      "label": "Aree di sosta attrezzate",
+      "gruppo": "B",
+      "categoria": "Campeggi e aree attrezzate per camper e roulotte",
+      "descrizione": "Aree attrezzate a gestione unitaria, aperte al pubblico, destinate alla sosta di turisti provvisti di mezzi di pernottamento autonomi (caravan, autocaravan, tende ecc). Le aree di sosta possono disporre di bar e spaccio al servizio delle sole persone ospitate."
+    },
+    {
+      "codice": "B104",
+      "label": "Aree di sosta presso privati",
+      "gruppo": "B",
+      "categoria": "Campeggi e aree attrezzate per camper e roulotte",
+      "descrizione": "Spazi all'aperto o aree verdi pertinenziali alla abitazione di un privato messi a disposizione per la sosta di turisti itineranti eventualmente provvisti di mezzi mobili propri o allestimenti mobili di pernottamento."
+    },
+    {
+      "codice": "B201",
+      "label": "Villaggi turistici",
+      "gruppo": "B",
+      "categoria": "Villaggi turistici",
+      "descrizione": "Complessi ricettivi aperti al pubblico, a gestione unitaria, prevalentemente attrezzati su aree recintate per il soggiorno di turisti anche sprovvisti di mezzi autonomi di pernottamento, che possono fornire alloggio in tende, unità abitative mobili o fisse. I villaggi turistici sono caratterizzati dalla presenza di attrezzature ricreative, culturali e sportive; sono eventualmente consentite anche attività di ristoro."
+    },
+    {
+      "codice": "B301",
+      "label": "Campeggi o villaggi (non specificato)",
+      "gruppo": "B",
+      "categoria": "Campeggi e villaggi turistici (forma mista)",
+      "descrizione": "Esercizi per i quali non è possibile identificare, in base alla normativa regionale/provinciale, la tipologia di campeggio o villaggio turistico."
+    },
+    {
+      "codice": "B302",
+      "label": "Campeggi con piazzole stagionali",
+      "gruppo": "B",
+      "categoria": "Campeggi e villaggi turistici (forma mista)",
+      "descrizione": "Campeggi a gestione unitaria in cui è praticato l'affitto delle piazzole ad un unico equipaggio per l'intera durata del periodo di apertura della struttura."
+    },
+    {
+      "codice": "B400",
+      "label": "Alloggi in affitto gestiti in forma imprenditoriale",
+      "gruppo": "B4",
+      "categoria": "Alloggi in affitto gestiti in forma imprenditoriale",
+      "descrizione": "Sottocategoria non indicata nel file del Ministero"
+    },
+    {
+      "codice": "B401",
+      "label": "Camere annesse a ristorante",
+      "gruppo": "B4",
+      "categoria": "Alloggi in affitto gestiti in forma imprenditoriale",
+      "descrizione": "Strutture composte da camere, ciascuna con accesso indipendente dagli altri locali, gestite in modo complementare all’esercizio di ristorazione dallo stesso titolare e nello stesso complesso immobiliare."
+    },
+    {
+      "codice": "B402",
+      "label": "Residence e unità con servizi",
+      "gruppo": "B4",
+      "categoria": "Alloggi in affitto gestiti in forma imprenditoriale",
+      "descrizione": "Strutture ricettive costituite da unità abitative mono o plurilocali, ciascuna arredata, corredata e dotata di servizi igienici e di cucina e forniscono alloggio e servizi, anche centralizzati."
+    },
+    {
+      "codice": "B403",
+      "label": "Affittacamere",
+      "gruppo": "B4",
+      "categoria": "Alloggi in affitto gestiti in forma imprenditoriale",
+      "descrizione": "Strutture ricettive atte a fornire alloggio ed eventuali servizi complementari, ivi compresa la somministrazione di cibi e bevande, in unità abitative costituite da camere ammobiliate."
+    },
+    {
+      "codice": "B404",
+      "label": "Case e appartamenti per vacanze",
+      "gruppo": "B4",
+      "categoria": "Alloggi in affitto gestiti in forma imprenditoriale",
+      "descrizione": "Unità immobiliari di civile abitazione ubicate in immobili esistenti, composte ciascuna da uno o più locali, arredate e dotate di servizi igienici e cucina autonomi."
+    },
+    {
+      "codice": "B405",
+      "label": "Unità abitative ammobiliate a uso turistico",
+      "gruppo": "B4",
+      "categoria": "Alloggi in affitto gestiti in forma imprenditoriale",
+      "descrizione": "Unità immobiliari composte da uno o più locali arredati e dotati di servizi igienici e di cucina autonoma. Nelle unità abitative ammobiliate a uso turistico sono assicurati servizi essenziali quali l'erogazione di energia elettrica, acqua, gas, la sostituzione di arredi, corredi e dotazioni deteriorati, la pulizia a ogni cambio di cliente e il riscaldamento."
+    },
+    {
+      "codice": "B406",
+      "label": "Ospitalità in poche camere o 2 appartamenti",
+      "gruppo": "B4",
+      "categoria": "Alloggi in affitto gestiti in forma imprenditoriale",
+      "descrizione": "Attività ricettive di ospitalità ed eventuale somministrazione della prima colazione svolta in non più di sei camere ubicate in un'unica unità immobiliare o in non più di due appartamenti ammobiliati, anche non situati nello stesso stabile, purché localizzati a non più di 100 metri di distanza l'uno dall'altro."
+    },
+    {
+      "codice": "B407",
+      "label": "Bed and breakfast",
+      "gruppo": "B4",
+      "categoria": "Alloggi in affitto gestiti in forma imprenditoriale",
+      "descrizione": "Strutture ricettive che offrono un servizio di alloggio e prima colazione per un numero limitato di camere e/o di posti letto gestite in forma imprenditoriale."
+    },
+    {
+      "codice": "B601",
+      "label": "Ostelli",
+      "gruppo": "B",
+      "categoria": "Ostelli per la gioventù",
+      "descrizione": "Strutture ricettive attrezzate prevalentemente per il soggiorno e il pernottamento dei giovani e dei loro accompagnatori o anche per gruppi di turisti. Possono essere gestite sia da soggetti pubblici, enti o associazioni riconosciute senza scopo di lucro che da operatori privati con finalità di carattere ecoomico."
+    },
+    {
+      "codice": "B701",
+      "label": "Case per ferie",
+      "gruppo": "B",
+      "categoria": "Case per ferie",
+      "descrizione": "Strutture ricettive attrezzate per il soggiorno di persone o gruppi e gestite, al di fuori di normali canali commerciali, da enti pubblici, associazioni o enti religiosi operanti senza fine di lucro per il conseguimento di finalità sociali, culturali, assistenziali, religiose o sportive, nonché da enti o aziende per il soggiorno dei propri dipendenti e dei loro familiari."
+    },
+    {
+      "codice": "B702",
+      "label": "Case religiose di ospitalità",
+      "gruppo": "B",
+      "categoria": "Case per ferie",
+      "descrizione": "Strutture ricettive di proprietà di Enti ecclesiastici, caratterizzate da finalità religiose, che offrono ospitalità a pagamento a chiunque lo richieda, nel rispetto del carattere religioso dell'ospitalità stessa e con accettazione delle conseguenti regole di comportamento e limitazioni di servizio."
+    },
+    {
+      "codice": "B704",
+      "label": "Strutture per la formazione",
+      "gruppo": "B",
+      "categoria": "Case per ferie",
+      "descrizione": "Strutture ricettive, gestite da Enti pubblici, associazioni, organizzazioni sindacali e privati operanti nel settore della formazione, che forniscono ospitalità finalizzata esclusivamente alla formazione, all’insegnamento e all’educazione. A tal fine le stesse dovranno essere dotate di adeguata attrezzatura per l’attività didattica."
+    },
+    {
+      "codice": "B705",
+      "label": "Colonie per ragazzi",
+      "gruppo": "B",
+      "categoria": "Case per ferie",
+      "descrizione": "Strutture ricettive, caratterizzate dal tipo di clientela individuata in bambini/ragazzi, aperte nel periodo delle vacanze estive o invernali e finalizzate anche allo sviluppo sociale e pedagogico del bambino/ragazzo. In esse deve essere garantita la presenza di personale specializzato e di personale medico o deve essere assicurata, tramite convenzione, assistenza sanitaria per immediato soccorso."
+    },
+    {
+      "codice": "B706",
+      "label": "Case per ferie gestite da privati",
+      "gruppo": "B",
+      "categoria": "Case per ferie",
+      "descrizione": "Strutture ricettive gestite da chi, anche in un immobile diverso da quello di residenza, fornisce alloggio ed eventuali servizi complementari, compresa la somministrazione di alimenti e bevande esclusivamente per le persone alloggiate."
+    },
+    {
+      "codice": "B707",
+      "label": "Strutture di associazioni",
+      "gruppo": "B",
+      "categoria": "Case per ferie",
+      "descrizione": "Strutture gestite da enti o associazioni senza scopo di lucro che operano a livello nazionale o locale per finalità ricreative, culturali e sociali, esclusivamente per i propri associati, idonee ad ospitare, in locali attrezzati per il pernottamento, gruppi di persone a tariffe agevolate."
+    },
+    {
+      "codice": "B708",
+      "label": "Soggiorni per anziani",
+      "gruppo": "B",
+      "categoria": "Case per ferie",
+      "descrizione": "Strutture ricettive, caratterizzate dal tipo di clientela individuata in persone anziane, aperte solitamente nel periodo delle vacanze estive o invernali e finalizzate al soggiorno in località ed ambienti salubri particolarmente adatti al riposo e alla vita sociale. In essi deve essere garantita la presenza di personale medico o deve essere assicurata, tramite convenzione, assistenza sanitaria per immediato soccorso. Non rientrano in questa categoria quelle destinate all’assistenza alle persone anziane.Sono"
+    },
+    {
+      "codice": "B709",
+      "label": "Pensionati per studenti",
+      "gruppo": "B",
+      "categoria": "Case per ferie",
+      "descrizione": "Istituti in cui alloggiano a pensione studenti per la durata di un corso di studi oppure giovani con disagi sociali per il riadattamento e per il loro avviamento al lavoro."
+    },
+    {
+      "codice": "B800",
+      "label": "Rifugi di montagna",
+      "gruppo": "B",
+      "categoria": "Rifugi di montagna",
+      "descrizione": "Sottocategoria non indicata nel file del Ministero"
+    },
+    {
+      "codice": "B801",
+      "label": "Rifugi di montagna",
+      "gruppo": "B",
+      "categoria": "Rifugi di montagna",
+      "descrizione": "Strutture ricettive idonee ad offrire ospitalità e ristoro ad alpinisti e escursionisti in zone isolate di montagna, raggiungibili attraverso mulattiere e sentieri o, in periodi dell’anno limitati, con strade carrozzabili."
+    },
+    {
+      "codice": "B802",
+      "label": "Rifugi escursionistici",
+      "gruppo": "B",
+      "categoria": "Rifugi di montagna",
+      "descrizione": "Strutture ricettive idonee ad offrire ospitalità in zone isolate di montagna, custodite ed aperte al pubblico, sufficientemente attrezzate per la sosta, il ristoro ed il pernottamento degli escursionisti. Possono essere gestiti da privati, enti o associazioni."
+    },
+    {
+      "codice": "B803",
+      "label": "Rifugi e posti tappa",
+      "gruppo": "B",
+      "categoria": "Rifugi di montagna",
+      "descrizione": "Strutture ricettive idonee ad offrire ospitalità e ristoro ad alpinisti ed escursionisti in zone montane, ubicati lungo itinerari escursionistici di interesse nazionale o regionale, destinati a svolgere anche funzione di posto tappa. Possono essere gestiti da privati, enti o associazioni."
+    },
+    {
+      "codice": "B804",
+      "label": "Bivacchi",
+      "gruppo": "B",
+      "categoria": "Rifugi di montagna",
+      "descrizione": "Locali di alta montagna incustoditi, aperti in permanenza e di difficile accesso, allestiti con un minimo di attrezzature per il riparo degli alpinisti. "
+    },
+    {
+      "codice": "B805",
+      "label": "Esercizi di alta montagna",
+      "gruppo": "B",
+      "categoria": "Rifugi di montagna",
+      "descrizione": "Esercizi ubicati in alta montagna, non qualificabili rifugi alpini, e che offrono ospitalità, ristoro, e eventualmente altri servizi accessori, prevalentemente agli alpinisti."
+    },
+    {
+      "codice": "B807",
+      "label": "Rifugi non custoditi",
+      "gruppo": "B",
+      "categoria": "Rifugi di montagna",
+      "descrizione": "Strutture in muratura ubicate in luoghi isolati di montagna, non gestite né custodite, chiuse ma fruibili dagli utenti della montagna mediante reperimento delle chiavi presso un posto pubblico, attrezzate per il pernottamento e per la cottura autonoma dei pasti da parte dei fruitori, nonché dotate di servizi igienici interni ovvero collocati nelle pertinenze della struttura."
+    },
+    {
+      "codice": "B900",
+      "label": "Altri esercizi ricettivi n.a.c.",
+      "gruppo": "B",
+      "categoria": "Altri esercizi ricettivi n.a.c.",
+      "descrizione": "Sottocategoria non indicata nel file del Ministero"
+    },
+    {
+      "codice": "B901",
+      "label": "Strutture rurali",
+      "gruppo": "B",
+      "categoria": "Altri esercizi ricettivi n.a.c.",
+      "descrizione": "Strutture situate in contesti rurali di interesse naturalistico e paesaggistico. L'offerta turistica comprende il pernottamento in camere o appartamenti con servizio autonomo di cucina, la somministrazione di alimenti e bevande alle persone alloggiate, l'esercizio di attività ludico-ricreative e sportive finalizzate alla valorizzazione dei beni naturalistici, ambientali e culturali del territorio rurale, nonché i servizi di ospitalità turistica e complementari."
+    },
+    {
+      "codice": "B902",
+      "label": "Residenze d'epoca extralberghiere",
+      "gruppo": "B",
+      "categoria": "Altri esercizi ricettivi n.a.c.",
+      "descrizione": "Strutture ricettive gestite in forma imprenditoriale, ubicate in complessi immobiliari di particolare pregio storico-architettonico che offrono alloggio in camere e unità abitative con o senza servizio autonomo di cucina. Le residenze d’epoca possono somministrare alimenti e bevande limitatamente alle persone alloggiate. "
+    },
+    {
+      "codice": "B903",
+      "label": "Marina resort",
+      "gruppo": "B",
+      "categoria": "Altri esercizi ricettivi n.a.c.",
+      "descrizione": "Strutture ricettive organizzate per la sosta e il pernottamento di turisti all’interno delle proprie unità da diporto ormeggiate in uno specchio acqueo appositamente attrezzato. Tali strutture possono, altresì, essere dotate anche di piazzole appositamente attrezzate per la sosta di imbarcazioni."
+    },
+    {
+      "codice": "B904",
+      "label": "Ospitalità su barche in porto",
+      "gruppo": "B",
+      "categoria": "Altri esercizi ricettivi n.a.c.",
+      "descrizione": "Attività di ospitalità svolte a bordo di unità da diporto ormeggiate in porto"
+    },
+    {
+      "codice": "B906",
+      "label": "Case sugli alberi",
+      "gruppo": "B",
+      "categoria": "Altri esercizi ricettivi n.a.c.",
+      "descrizione": "Alloggi collocati in posizione sopraelevata dal suolo nell’ambito di contesti arborei di alto fusto. "
+    },
+    {
+      "codice": "B909",
+      "label": "Albergo diffuso extralberghiero",
+      "gruppo": "B",
+      "categoria": "Altri esercizi ricettivi n.a.c.",
+      "descrizione": "Offerta ricettiva, esercitata in un centro storico o in un contesto urbano di pregio, con camere, suite, unità abitative e servizi dislocat in diversi edifici. La gestione può essere congiunta o disgiunta purché coordinata, in grado di offrire i servizi di alloggio ed eventuale ristorazione, nonché i servizi accessori."
+    },
+    {
+      "codice": "B910",
+      "label": "Strutture riservate ai soci",
+      "gruppo": "B",
+      "categoria": "Altri esercizi ricettivi n.a.c.",
+      "descrizione": "Strutture organizzate e gestite da enti, associazioni e cooperative, che ospitano unicamente soci o dipendenti dei suddetti organismi e loro familiari"
+    },
+    {
+      "codice": "B911",
+      "label": "Strutture sopraelevate",
+      "gruppo": "B",
+      "categoria": "Altri esercizi ricettivi n.a.c.",
+      "descrizione": "Strutture sopraelevate dal suolo e integrate in modo armonioso e non invasivo nel contesto vegetale presente, dislocate in più punti all'interno di un'unica area perimetrata. Le unità abitative devono essere costituite prevalentemente in legno o in materiali ecocompatibili."
+    },
+    {
+      "codice": "B912",
+      "label": "Barche a secco",
+      "gruppo": "B",
+      "categoria": "Altri esercizi ricettivi n.a.c.",
+      "descrizione": "Strutture organizzate per la sosta e il pernottamento di turisti all'interno delle imbarcazioni, posizionate a secco in piazzale appositamente attrezzato."
+    },
+    {
+      "codice": "B913",
+      "label": "Case galleggianti",
+      "gruppo": "B",
+      "categoria": "Altri esercizi ricettivi n.a.c.",
+      "descrizione": "Alloggi galleggianti saldamente assicurati in modo permanente alla riva o all'alveo di fiumi e canali. E' una nuova tipologia di struttura ricettiva che si distingue sia dalle strutture ricettive alberghiere, all'aperto, complementari, sia dalle attività ricettive connesse al settore primario (agriturismo. ittiturismo)"
+    },
+    {
+      "codice": "C101",
+      "label": "Bed and breakfast",
+      "gruppo": "C",
+      "categoria": "Bed and breakfast",
+      "descrizione": "Strutture ricettive che offrono un servizio di alloggio e prima colazione per un numero limitato di camere e/o di posti letto gestite in forma non imprenditoriale"
+    },
+    {
+      "codice": "C200",
+      "label": "Altri alloggi privati",
+      "gruppo": "C",
+      "categoria": "Altri alloggi privati",
+      "descrizione": "Sottocategoria non indicata nel file del Ministero"
+    },
+    {
+      "codice": "C201",
+      "label": "Affittacamere",
+      "gruppo": "C",
+      "categoria": "Altri alloggi privati",
+      "descrizione": "Strutture ricettive atte a fornire alloggio ed eventuali servizi complementari, ivi compresa la somministrazione di cibi e bevande, in unità abitative costituite da camere ammobiliate."
+    },
+    {
+      "codice": "C202",
+      "label": "Appartamenti e case",
+      "gruppo": "C",
+      "categoria": "Altri alloggi privati",
+      "descrizione": "Unità immobiliari di civile abitazione ubicate in immobili esistenti, composte ciascuna da uno o più locali, arredate e dotate di servizi igienici e cucina autonomi."
+    },
+    {
+      "codice": "C203",
+      "label": "Ville e dimore di pregio",
+      "gruppo": "C",
+      "categoria": "Altri alloggi privati",
+      "descrizione": "Abitazioni dotate di ambienti molto grandi, solitamente ubicate in zone di pregio e circondate da parco o giardino."
+    },
+    {
+      "codice": "C204",
+      "label": "Altre locazioni turistiche",
+      "gruppo": "C",
+      "categoria": "Altri alloggi privati",
+      "descrizione": "Tutte altre locazioni non assimilabili alle precedenti sotto-categorie della categoria C.2 Altri alloggi privati"
+    }
+  ],
+  "gruppi": [
+    {
+      "id": "B4",
+      "label": "Alloggi gestiti come impresa"
+    },
+    {
+      "id": "C",
+      "label": "Alloggi privati, non imprenditoriali"
+    },
+    {
+      "id": "B",
+      "label": "Altre strutture extralberghiere"
+    }
+  ],
+  "preset": {
+    "ampia": {
+      "label": "Ampia",
+      "descrizione": "Tutto l'extralberghiero nelle case: appartamenti, camere e B&B, gestiti come impresa o da privati.",
+      "codici": [
+        "B403",
+        "B404",
+        "B405",
+        "B407",
+        "C101",
+        "C201",
+        "C202",
+        "C203",
+        "C204"
+      ]
+    },
+    "stretta": {
+      "label": "Stretta",
+      "descrizione": "Solo abitazioni intere sottratte all'uso residenziale: niente camere e niente B&B.",
+      "codici": [
+        "B404",
+        "B405",
+        "C202",
+        "C203",
+        "C204"
+      ]
+    }
+  },
+  "anni": {
+    "popolazione": "2024",
+    "abitazioni": "2023"
+  }
+}
