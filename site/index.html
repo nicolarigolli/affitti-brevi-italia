@@ -1,0 +1,696 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!--ARTIFACT-START-->
+<title>Atlante affitti brevi</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Unità in affitto breve registrate nella Banca dati strutture ricettive del Ministero del Turismo, per comune, rispetto a residenti e abitazioni.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: strumento a schermo intero. Pannello di controllo a sinistra (in basso sul telefono), mappa coropletica a destra.
+   Ogni misura ha la sua scala di colore, così si capisce sempre che cosa si sta guardando. */
+:root {
+  --bg: #eef1f3;
+  --surface: #ffffff;
+  --ink: #16202a;
+  --muted: #5a6670;
+  --line: #d6dce1;
+  --accent: #1d4f73;
+  --accent-ink: #ffffff;
+  --sea: #e3ebf0;
+  --zero: #f4f5f2;
+  --nodata: #d9dcdf;
+  --border-com: rgba(22, 32, 42, 0.18);
+  --border-prov: rgba(22, 32, 42, 0.45);
+  --hover: #16202a;
+  --font-display: "IBM Plex Sans Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --r: 6px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f151b; --surface: #161e26; --ink: #e6ecf0; --muted: #98a6b1; --line: #26323d;
+    --accent: #7db3dc; --accent-ink: #0f151b; --sea: #121a21; --zero: #26303a; --nodata: #333d47;
+    --border-com: rgba(230, 236, 240, 0.14); --border-prov: rgba(230, 236, 240, 0.4); --hover: #ffffff;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f151b; --surface: #161e26; --ink: #e6ecf0; --muted: #98a6b1; --line: #26323d;
+  --accent: #7db3dc; --accent-ink: #0f151b; --sea: #121a21; --zero: #26303a; --nodata: #333d47;
+  --border-com: rgba(230, 236, 240, 0.14); --border-prov: rgba(230, 236, 240, 0.4); --hover: #ffffff;
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 14px; line-height: 1.45;
+}
+* { box-sizing: border-box; }
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.app { display: grid; grid-template-columns: 380px minmax(0, 1fr); height: 100%; }
+.panel {
+  background: var(--surface); border-right: 1px solid var(--line); overflow-y: auto; min-width: 0;
+  padding-block: 20px 28px; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: 20px;
+  display: flex; flex-direction: column; gap: 22px;
+}
+.mapwrap { position: relative; min-width: 0; background: var(--sea); }
+#map { position: absolute; inset: 0; background: var(--sea); }
+
+header h1 {
+  font-family: var(--font-display); font-weight: 700; font-size: 26px; line-height: 1.1; margin: 0 0 6px;
+  letter-spacing: -0.01em; text-wrap: balance;
+}
+header p { margin: 0; color: var(--muted); max-width: 60ch; }
+.stamp { display: inline-flex; gap: 8px; align-items: baseline; margin-top: 10px; font-size: 12.5px; color: var(--muted); }
+.stamp b { font-family: var(--font-mono); font-weight: 500; color: var(--ink); }
+
+.block { display: flex; flex-direction: column; gap: 8px; }
+.label {
+  font-family: var(--font-display); font-weight: 600; font-size: 12px; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--muted);
+}
+.seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+.seg button {
+  border: 0; background: transparent; padding: 8px 6px; cursor: pointer; font-size: 13px; line-height: 1.2;
+  border-left: 1px solid var(--line); display: flex; flex-direction: column; align-items: center; gap: 5px;
+}
+.seg button:first-child { border-left: 0; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); font-weight: 600; }
+.seg .sw { width: 34px; height: 6px; border-radius: 3px; }
+.hint { font-size: 12.5px; color: var(--muted); margin: 0; }
+
+.cats { display: flex; flex-direction: column; gap: 10px; }
+.cat-group { display: flex; flex-direction: column; gap: 2px; }
+.cat-group h3 { margin: 4px 0 2px; font-size: 12.5px; font-weight: 600; color: var(--muted); }
+.cat {
+  display: grid; grid-template-columns: 18px 44px minmax(0, 1fr) auto; gap: 6px; align-items: baseline;
+  padding: 3px 4px; border-radius: 4px; cursor: pointer;
+}
+.cat:hover { background: var(--bg); }
+.cat input { margin: 0; align-self: center; accent-color: var(--accent); }
+.cat code { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+.cat span { min-width: 0; }
+.cat .n { font-family: var(--font-mono); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+details.more summary { cursor: pointer; font-size: 13px; color: var(--accent); padding: 2px 4px; }
+details.more[open] summary { margin-bottom: 4px; }
+
+.row { display: flex; gap: 8px; flex-wrap: wrap; }
+.row > * { flex: 1 1 140px; min-width: 0; }
+select, input[type="search"] {
+  width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface);
+}
+.search { position: relative; }
+.suggest {
+  position: absolute; left: 0; right: 0; top: calc(100% + 4px); background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r); box-shadow: 0 8px 24px rgba(0,0,0,0.12); z-index: 2000; max-height: 260px; overflow-y: auto;
+}
+.suggest button { display: flex; justify-content: space-between; gap: 8px; width: 100%; text-align: left; border: 0; background: none; padding: 8px 10px; cursor: pointer; }
+.suggest button:hover, .suggest button:focus-visible { background: var(--bg); }
+.suggest small { color: var(--muted); }
+
+.detail { border-top: 1px solid var(--line); padding-top: 18px; display: flex; flex-direction: column; gap: 12px; }
+.detail h2 { font-family: var(--font-display); font-weight: 700; font-size: 22px; margin: 0; line-height: 1.15; }
+.detail .where { color: var(--muted); font-size: 13px; }
+.big { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.big strong { font-family: var(--font-display); font-size: 38px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.big span { color: var(--muted); }
+.kv { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; margin: 0; }
+.kv dt { color: var(--muted); }
+.kv dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; font-family: var(--font-mono); font-size: 13px; }
+.kv .sep { grid-column: 1 / -1; border-top: 1px dashed var(--line); margin: 4px 0; }
+.ratios { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.ratio { border: 1px solid var(--line); border-radius: var(--r); padding: 8px; display: flex; flex-direction: column; gap: 4px; }
+.ratio b { font-family: var(--font-display); font-size: 19px; font-variant-numeric: tabular-nums; }
+.ratio small { color: var(--muted); font-size: 11.5px; line-height: 1.25; }
+.ratio .bar { height: 4px; border-radius: 2px; }
+.breakdown { width: 100%; border-collapse: collapse; font-size: 13px; }
+.breakdown th { text-align: left; font-weight: 500; color: var(--muted); font-size: 12px; padding: 4px 0; border-bottom: 1px solid var(--line); }
+.breakdown td { padding: 4px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+.breakdown td.num, .breakdown th.num { text-align: right; font-family: var(--font-mono); font-variant-numeric: tabular-nums; padding-left: 8px; }
+.breakdown tr.off td { color: var(--muted); }
+.breakdown code { font-family: var(--font-mono); font-size: 11.5px; color: var(--muted); margin-right: 6px; }
+.spark { width: 100%; height: 64px; display: block; }
+.empty { color: var(--muted); font-size: 13px; }
+
+footer { margin-top: auto; border-top: 1px solid var(--line); padding-top: 14px; font-size: 12.5px; color: var(--muted); display: flex; flex-direction: column; gap: 8px; }
+footer p { margin: 0; }
+footer a { color: var(--accent); }
+
+/* Legenda e messaggi sulla mappa */
+.legend {
+  position: absolute; z-index: 1000; left: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 10px 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08); max-width: calc(100% - 24px); display: flex; flex-direction: column; gap: 6px;
+}
+.legend .t { font-weight: 600; font-size: 12.5px; }
+.legend .scale { display: flex; gap: 0; }
+.legend .scale div { display: flex; flex-direction: column; gap: 3px; flex: 0 0 42px; }
+.legend .scale i { height: 12px; display: block; }
+.legend .scale small { font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); white-space: nowrap; }
+.legend .keys { display: flex; gap: 12px; font-size: 11.5px; color: var(--muted); }
+.legend .keys i { display: inline-block; width: 12px; height: 12px; vertical-align: -2px; margin-right: 4px; border: 1px solid var(--line); }
+.status {
+  position: absolute; z-index: 1000; top: calc(12px + env(safe-area-inset-top, 0px)); right: 12px; background: var(--surface);
+  border: 1px solid var(--line); border-radius: var(--r); padding: 8px 12px; font-size: 13px; max-width: 320px;
+}
+
+/* Leaflet, regole essenziali (il foglio di stile originale non si può caricare da CDN) */
+.leaflet-pane, .leaflet-tile, .leaflet-marker-icon, .leaflet-marker-shadow, .leaflet-tile-container,
+.leaflet-pane > svg, .leaflet-pane > canvas, .leaflet-zoom-box, .leaflet-image-layer, .leaflet-layer { position: absolute; left: 0; top: 0; }
+.leaflet-container { overflow: hidden; -webkit-tap-highlight-color: transparent; font-family: var(--font-body); }
+.leaflet-pane { z-index: 400; }
+.leaflet-overlay-pane { z-index: 400; }
+.leaflet-tooltip-pane { z-index: 650; }
+.leaflet-control { position: relative; z-index: 800; pointer-events: auto; float: left; clear: both; }
+.leaflet-top, .leaflet-bottom { position: absolute; z-index: 1000; pointer-events: none; }
+.leaflet-top { top: env(safe-area-inset-top, 0px); } .leaflet-right { right: env(safe-area-inset-right, 0px); }
+.leaflet-bottom { bottom: 0; } .leaflet-left { left: 0; }
+.leaflet-right .leaflet-control { float: right; }
+.leaflet-top .leaflet-control { margin-top: 12px; } .leaflet-right .leaflet-control { margin-right: 12px; }
+.leaflet-zoom-animated { transform-origin: 0 0; }
+.leaflet-zoom-anim .leaflet-zoom-animated { transition: transform 0.25s cubic-bezier(0, 0, 0.25, 1); }
+.leaflet-interactive { cursor: pointer; }
+.leaflet-container.leaflet-touch-drag { touch-action: none; }
+.leaflet-container.leaflet-touch-zoom { touch-action: pan-x pan-y; }
+.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom { touch-action: none; }
+.leaflet-grab { cursor: grab; } .leaflet-dragging .leaflet-grab { cursor: grabbing; }
+.leaflet-bar { border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; background: var(--surface); }
+.leaflet-bar a {
+  display: block; width: 32px; height: 32px; line-height: 30px; text-align: center; text-decoration: none;
+  color: var(--ink); font-size: 18px; border-bottom: 1px solid var(--line);
+}
+.leaflet-bar a:last-child { border-bottom: 0; }
+.leaflet-bar a:hover { background: var(--bg); }
+.leaflet-bar a.leaflet-disabled { color: var(--muted); cursor: default; }
+.leaflet-tooltip {
+  position: absolute; padding: 8px 10px; background: var(--surface); color: var(--ink); border: 1px solid var(--line);
+  border-radius: var(--r); white-space: nowrap; pointer-events: none; box-shadow: 0 4px 14px rgba(0,0,0,0.14); font-size: 12.5px;
+}
+.tt b { font-size: 13.5px; }
+.tt .v { font-family: var(--font-display); font-size: 17px; font-weight: 700; }
+.tt small { color: var(--muted); }
+
+@media (max-width: 820px) {
+  .app { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto; height: auto; }
+  html, body { height: auto; }
+  .mapwrap { order: -1; height: 58vh; min-height: 320px; }
+  .panel {
+    border-right: 0; border-top: 1px solid var(--line); overflow: visible;
+    padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  .status { left: 12px; right: 12px; max-width: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .leaflet-zoom-anim .leaflet-zoom-animated { transition: none; }
+}
+</style>
+<!--ARTIFACT-HEAD-END-->
+</head>
+<body>
+<!--ARTIFACT-BODY-START-->
+<div class="app">
+  <aside class="panel" aria-label="Controlli e dettagli">
+    <header>
+      <h1>Affitti brevi registrati, comune per comune</h1>
+      <p>Unità iscritte nella Banca dati strutture ricettive (BDSR) del Ministero del Turismo, confrontate con residenti e abitazioni ISTAT.</p>
+      <div class="stamp">Dati BDSR al <b id="stamp-date">…</b></div>
+    </header>
+
+    <div class="block">
+      <div class="label" id="lbl-den">Misura</div>
+      <div class="seg" role="group" aria-labelledby="lbl-den" id="den-seg"></div>
+      <p class="hint" id="den-hint"></p>
+    </div>
+
+    <div class="block">
+      <div class="label" id="lbl-cin">Codice CIN</div>
+      <div class="seg" role="group" aria-labelledby="lbl-cin" id="cin-seg"></div>
+    </div>
+
+    <div class="block">
+      <div class="label" id="lbl-cat">Categorie conteggiate</div>
+      <div class="seg" role="group" aria-labelledby="lbl-cat" id="preset-seg"></div>
+      <p class="hint" id="preset-hint"></p>
+      <div class="cats" id="cats"></div>
+    </div>
+
+    <div class="row">
+      <div class="block">
+        <label class="label" for="date-sel">Istantanea</label>
+        <select id="date-sel"></select>
+      </div>
+      <div class="block search">
+        <label class="label" for="search">Cerca un comune</label>
+        <input type="search" id="search" placeholder="Es. Sestri Levante" autocomplete="off">
+        <div class="suggest" id="suggest" hidden></div>
+      </div>
+    </div>
+
+    <section class="detail" id="detail" aria-live="polite">
+      <p class="empty">Tocca un comune sulla mappa per vedere i numeri e il dettaglio per categoria.</p>
+    </section>
+
+    <footer>
+      <p><b>Fonti.</b> Ministero del Turismo, BDSR, statistiche per comune e sottocategoria ISTAT. ISTAT, Censimento permanente: popolazione residente (<span id="y-pop">…</span>) e abitazioni (<span id="y-abit">…</span>). Confini comunali ISTAT al 1° gennaio 2025.</p>
+      <p><b>Come leggere.</b> Si contano le unità registrate, non gli annunci online. "Con CIN" somma CIN verificati e in verifica. Alberghi e agriturismi sono esclusi.</p>
+      <p id="dl" hidden><a id="dl-link" href="data/export/ultimi_dati.csv">Scarica i dati dell'ultima istantanea (CSV)</a></p>
+    </footer>
+  </aside>
+
+  <main class="mapwrap">
+    <div id="map" role="region" aria-label="Mappa dei comuni"></div>
+    <div class="legend" id="legend"></div>
+    <div class="status" id="status">Caricamento dei dati…</div>
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<script>
+(() => {
+  "use strict";
+
+  const fmt = new Intl.NumberFormat("it-IT", { useGrouping: "always" });
+  const fmt1 = new Intl.NumberFormat("it-IT", { maximumFractionDigits: 1, minimumFractionDigits: 1, useGrouping: "always" });
+  const fmtDate = (d) => d ? d.split("-").reverse().join("/") : "";
+
+  // Le tre misure: denominatore, unità e scala di colore. Soglie fisse, così lo storico resta confrontabile.
+  const DENS = {
+    res: {
+      label: "Ogni 1.000 residenti", short: "ogni 1.000 residenti", col: 3, mult: 1000, unit: "",
+      hint: "Unità registrate ogni mille abitanti. Fa emergere i piccoli comuni turistici.",
+      breaks: [1, 3, 10, 25, 50, 100],
+      ramp: ["#e9ebf8", "#c9cdef", "#a3a9e2", "#7c83d1", "#5a5fbb", "#3f409b", "#2a2873"],
+    },
+    abit: {
+      label: "% sulle abitazioni", short: "% delle abitazioni", col: 4, mult: 100, unit: "%",
+      hint: "Quota del patrimonio abitativo totale registrata come affitto breve.",
+      breaks: [0.25, 0.5, 1, 2.5, 5, 10],
+      ramp: ["#fcefdf", "#f9d6ab", "#f4b675", "#ec9347", "#da6f27", "#b65116", "#863a10"],
+    },
+    nonocc: {
+      label: "% sulle non occupate", short: "% delle abitazioni non occupate", col: 5, mult: 100, unit: "%",
+      hint: "Quota delle abitazioni senza residenti (seconde case e case vuote) registrata come affitto breve.",
+      breaks: [0.5, 1, 2.5, 5, 10, 20],
+      ramp: ["#e3f3ef", "#bce2d9", "#8ccbbf", "#59b0a2", "#339285", "#1d7268", "#0f524c"],
+    },
+  };
+  const CINS = {
+    tutte: { label: "Tutte le registrate", pick: (t, c) => t },
+    con: { label: "Con CIN", pick: (t, c) => c },
+    senza: { label: "Senza CIN", pick: (t, c) => t - c },
+  };
+
+  const state = {
+    den: "abit", cin: "tutte", preset: "ampia", selected: new Set(), date: null, focus: null,
+  };
+  let META, COMUNI, SNAP = {}, FEATURES, geoLayer, map, NAMES = [];
+  const snapCache = {};
+
+  const $ = (id) => document.getElementById(id);
+  const status = (msg) => { const s = $("status"); s.hidden = !msg; s.textContent = msg || ""; };
+
+  function loadPrefs() {
+    try {
+      const p = JSON.parse(localStorage.getItem("atlante-prefs") || "null");
+      if (p && DENS[p.den]) state.den = p.den;
+      if (p && CINS[p.cin]) state.cin = p.cin;
+    } catch (e) { /* le preferenze sono solo una comodità */ }
+  }
+  function savePrefs() {
+    try { localStorage.setItem("atlante-prefs", JSON.stringify({ den: state.den, cin: state.cin })); } catch (e) {}
+  }
+
+  async function getJSON(path) {
+    const r = await fetch(path);
+    if (!r.ok) throw new Error(`${path}: ${r.status}`);
+    return r.json();
+  }
+  async function getSnap(date) {
+    if (!snapCache[date]) snapCache[date] = getJSON(`data/snap/${date}.json`);
+    return snapCache[date];
+  }
+
+  // Calcolo del valore di un comune per la misura corrente
+  function counts(code, snap) {
+    const rows = (snap || SNAP)[code];
+    let t = 0, c = 0;
+    if (rows) for (const [i, tot, cin] of rows) {
+      if (state.selected.has(META.codici[i])) { t += tot; c += cin; }
+    }
+    return { t, c, n: CINS[state.cin].pick(t, c) };
+  }
+  function rate(code, snap, denKey = state.den) {
+    const com = COMUNI[code];
+    if (!com) return null;
+    const d = DENS[denKey];
+    const den = com[d.col];
+    if (!den) return null;
+    return counts(code, snap).n / den * d.mult;
+  }
+  function colorFor(v) {
+    if (v === null || v === undefined || Number.isNaN(v)) return getVar("--nodata");
+    if (v === 0) return getVar("--zero");
+    const d = DENS[state.den];
+    let k = 0;
+    while (k < d.breaks.length && v >= d.breaks[k]) k++;
+    return d.ramp[k];
+  }
+  const cssCache = {};
+  function getVar(name) {
+    if (!(name in cssCache)) cssCache[name] = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    return cssCache[name];
+  }
+  function fmtRate(v, denKey = state.den) {
+    if (v === null) return "n.d.";
+    const d = DENS[denKey];
+    return (v >= 100 ? fmt.format(Math.round(v)) : fmt1.format(v)) + (d.unit ? " " + d.unit : "");
+  }
+
+  // Controlli
+  function buildControls() {
+    const denSeg = $("den-seg");
+    denSeg.innerHTML = "";
+    for (const [k, d] of Object.entries(DENS)) {
+      const b = document.createElement("button");
+      b.type = "button"; b.id = `den-${k}`;
+      b.innerHTML = `<span>${d.label}</span><i class="sw" style="background:linear-gradient(90deg,${d.ramp[1]},${d.ramp[6]})"></i>`;
+      b.addEventListener("click", () => { state.den = k; savePrefs(); refresh(); });
+      denSeg.appendChild(b);
+    }
+    const cinSeg = $("cin-seg");
+    cinSeg.innerHTML = "";
+    for (const [k, c] of Object.entries(CINS)) {
+      const b = document.createElement("button");
+      b.type = "button"; b.id = `cin-${k}`; b.textContent = c.label;
+      b.addEventListener("click", () => { state.cin = k; savePrefs(); refresh(); });
+      cinSeg.appendChild(b);
+    }
+    const preSeg = $("preset-seg");
+    preSeg.innerHTML = "";
+    const presets = { ...META.preset, personalizzata: { label: "Personalizzata", descrizione: "Scegli tu le sottocategorie da contare." } };
+    for (const [k, p] of Object.entries(presets)) {
+      const b = document.createElement("button");
+      b.type = "button"; b.id = `preset-${k}`; b.textContent = p.label;
+      b.addEventListener("click", () => {
+        if (k !== "personalizzata") applyPreset(k);
+        else state.preset = k;
+        refresh();
+      });
+      preSeg.appendChild(b);
+    }
+    buildCategoryList();
+
+    const sel = $("date-sel");
+    sel.innerHTML = "";
+    for (const d of [...META.istantanee].reverse()) {
+      const o = document.createElement("option");
+      o.value = d; o.textContent = fmtDate(d) + (d === META.aggiornato ? " (ultima)" : "");
+      sel.appendChild(o);
+    }
+    sel.value = state.date;
+    sel.addEventListener("change", async () => {
+      status("Caricamento dell'istantanea…");
+      state.date = sel.value;
+      SNAP = await getSnap(state.date);
+      status("");
+      refresh();
+    });
+    if (META.istantanee.length < 2) {
+      sel.disabled = true;
+      sel.title = "Lo storico si allunga a ogni aggiornamento settimanale";
+    }
+  }
+
+  function applyPreset(k) {
+    state.preset = k;
+    state.selected = new Set(META.preset[k].codici.filter((c) => META.codici.includes(c)));
+  }
+
+  function totalsByCode() {
+    const out = {};
+    for (const rows of Object.values(SNAP)) for (const [i, t] of rows) out[i] = (out[i] || 0) + t;
+    return out;
+  }
+
+  function buildCategoryList() {
+    const tot = totalsByCode();
+    const wrap = $("cats");
+    wrap.innerHTML = "";
+    const byGroup = {};
+    META.categorie.forEach((c, i) => { (byGroup[c.gruppo] = byGroup[c.gruppo] || []).push({ ...c, i }); });
+    for (const g of META.gruppi) {
+      const items = byGroup[g.id];
+      if (!items) continue;
+      const box = document.createElement(g.id === "B" ? "details" : "div");
+      box.className = g.id === "B" ? "cat-group more" : "cat-group";
+      const head = document.createElement(g.id === "B" ? "summary" : "h3");
+      head.textContent = g.id === "B" ? `${g.label} (${items.length})` : g.label;
+      box.appendChild(head);
+      for (const c of items) {
+        const lab = document.createElement("label");
+        lab.className = "cat";
+        lab.title = c.descrizione;
+        lab.innerHTML = `<input type="checkbox" id="cat-${c.codice}" value="${c.codice}"><code>${c.codice}</code><span></span><span class="n">${fmt.format(tot[c.i] || 0)}</span>`;
+        lab.querySelector("span").textContent = c.label;
+        lab.querySelector("input").addEventListener("change", (e) => {
+          if (e.target.checked) state.selected.add(c.codice); else state.selected.delete(c.codice);
+          state.preset = matchPreset();
+          refresh();
+        });
+        box.appendChild(lab);
+      }
+      wrap.appendChild(box);
+    }
+  }
+  function matchPreset() {
+    for (const [k, p] of Object.entries(META.preset)) {
+      const s = new Set(p.codici.filter((c) => META.codici.includes(c)));
+      if (s.size === state.selected.size && [...s].every((c) => state.selected.has(c))) return k;
+    }
+    return "personalizzata";
+  }
+
+  function syncControls() {
+    for (const k of Object.keys(DENS)) $(`den-${k}`).setAttribute("aria-pressed", String(state.den === k));
+    for (const k of Object.keys(CINS)) $(`cin-${k}`).setAttribute("aria-pressed", String(state.cin === k));
+    for (const b of $("preset-seg").children) b.setAttribute("aria-pressed", String(b.id === `preset-${state.preset}`));
+    $("den-hint").textContent = DENS[state.den].hint;
+    $("preset-hint").textContent = state.preset === "personalizzata"
+      ? `${state.selected.size} sottocategorie scelte a mano.`
+      : META.preset[state.preset].descrizione;
+    for (const c of META.codici) { const el = $(`cat-${c}`); if (el) el.checked = state.selected.has(c); }
+    $("stamp-date").textContent = fmtDate(state.date);
+  }
+
+  function buildLegend() {
+    const d = DENS[state.den];
+    const cells = d.ramp.map((col, k) => {
+      const lo = k === 0 ? "0" : String(d.breaks[k - 1]).replace(".", ",");
+      return `<div><i style="background:${col}"></i><small>${k === 0 ? "&gt;0" : "≥" + lo}</small></div>`;
+    }).join("");
+    $("legend").innerHTML = `
+      <div class="t">${CINS[state.cin].label}, ${d.short}</div>
+      <div class="scale">${cells}</div>
+      <div class="keys"><span><i style="background:var(--zero)"></i>nessuna</span><span><i style="background:var(--nodata)"></i>dato mancante</span></div>`;
+  }
+
+  // Mappa
+  function styleFor(feature) {
+    const code = feature.properties.id;
+    const focused = state.focus === code;
+    return {
+      fillColor: colorFor(rate(code)), fillOpacity: 1,
+      color: focused ? getVar("--hover") : getVar("--border-com"),
+      weight: focused ? 2.5 : 0.5,
+    };
+  }
+  function tooltipHtml(code) {
+    const com = COMUNI[code];
+    const f = FEATURES.get(code);
+    const name = (com && com[0]) || (f && f.properties.n) || code;
+    const k = counts(code);
+    const v = rate(code);
+    return `<div class="tt"><b>${escapeHtml(name)}</b> <small>${escapeHtml((f && f.properties.p) || "")}</small><br>
+      <span class="v">${fmtRate(v)}</span> <small>${DENS[state.den].short}</small><br>
+      <small>${fmt.format(k.t)} registrate · ${fmt.format(k.c)} con CIN</small></div>`;
+  }
+  function escapeHtml(s) { return String(s).replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch])); }
+
+  function buildMap(topo) {
+    map = L.map("map", { zoomSnap: 0.25, zoomDelta: 0.5, attributionControl: false, preferCanvas: true, zoomControl: false });
+    L.control.zoom({ position: "topright", zoomInTitle: "Avvicina", zoomOutTitle: "Allontana" }).addTo(map);
+    const renderer = L.canvas({ padding: 0.5, tolerance: 2 });
+    const comuni = topojson.feature(topo, topo.objects.comuni);
+    FEATURES = new Map(comuni.features.map((f) => [f.properties.id, f]));
+    geoLayer = L.geoJSON(comuni, {
+      renderer, style: styleFor,
+      onEachFeature: (f, layer) => {
+        layer.bindTooltip(() => tooltipHtml(f.properties.id), { sticky: true, direction: "top", offset: [0, -8] });
+        layer.on("click", () => select(f.properties.id, false));
+        layer.on("mouseover", () => layer.setStyle({ weight: 2, color: getVar("--hover") }));
+        layer.on("mouseout", () => geoLayer.resetStyle(layer));
+      },
+    }).addTo(map);
+    const prov = topojson.mesh(topo, topo.objects.province, (a, b) => a !== b);
+    L.geoJSON(prov, { renderer, interactive: false, style: { color: getVar("--border-prov"), weight: 1, fill: false } }).addTo(map);
+    const reg = topojson.mesh(topo, topo.objects.regioni);
+    L.geoJSON(reg, { renderer, interactive: false, style: { color: getVar("--border-prov"), weight: 1.6, fill: false } }).addTo(map);
+    map.fitBounds(geoLayer.getBounds(), { padding: [16, 16] });
+    window.addEventListener("resize", () => map.invalidateSize());
+  }
+
+  function refresh() {
+    syncControls();
+    buildLegend();
+    if (geoLayer) geoLayer.setStyle(styleFor);
+    renderDetail();
+  }
+
+  // Dettaglio del comune selezionato
+  function select(code, zoom) {
+    state.focus = code;
+    refresh();
+    if (zoom) {
+      const f = FEATURES.get(code);
+      if (f) map.fitBounds(L.geoJSON(f).getBounds(), { maxZoom: 11, padding: [40, 40] });
+    }
+    if (window.matchMedia("(max-width: 820px)").matches && !zoom) $("detail").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function renderDetail() {
+    const box = $("detail");
+    const code = state.focus;
+    if (!code) {
+      box.innerHTML = `<p class="empty">Tocca un comune sulla mappa per vedere i numeri e il dettaglio per categoria.</p>`;
+      return;
+    }
+    const com = COMUNI[code] || [];
+    const f = FEATURES.get(code);
+    const name = com[0] || (f && f.properties.n) || code;
+    const k = counts(code);
+    const v = rate(code);
+    const ratio = (key) => {
+      const d = DENS[key], r = rate(code, null, key);
+      let kk = 0; if (r !== null && r > 0) { while (kk < d.breaks.length && r >= d.breaks[kk]) kk++; }
+      const col = r === null ? "var(--nodata)" : r === 0 ? "var(--zero)" : d.ramp[kk];
+      return `<div class="ratio"><i class="bar" style="background:${col}"></i><b>${fmtRate(r, key)}</b><small>${d.short}</small></div>`;
+    };
+    const rows = (SNAP[code] || []).map(([i, t, c]) => ({ code: META.codici[i], cat: META.categorie[i], t, c }))
+      .sort((a, b) => (state.selected.has(b.code) - state.selected.has(a.code)) || b.t - a.t);
+    const table = rows.length ? `
+      <table class="breakdown">
+        <thead><tr><th>Sottocategoria</th><th class="num">Registrate</th><th class="num">Con CIN</th></tr></thead>
+        <tbody>${rows.map((r) => `<tr class="${state.selected.has(r.code) ? "" : "off"}"><td><code>${r.code}</code>${escapeHtml(r.cat.label)}</td><td class="num">${fmt.format(r.t)}</td><td class="num">${fmt.format(r.c)}</td></tr>`).join("")}</tbody>
+      </table>` : `<p class="empty">Nessuna struttura extralberghiera registrata.</p>`;
+
+    box.innerHTML = `
+      <div>
+        <h2>${escapeHtml(name)}</h2>
+        <div class="where">${escapeHtml([com[1], com[2]].filter(Boolean).join(", "))} · ISTAT <span style="font-family:var(--font-mono)">${code}</span></div>
+      </div>
+      <div class="big"><strong>${fmtRate(v)}</strong><span>${DENS[state.den].short}</span></div>
+      <dl class="kv">
+        <dt>Registrate nelle categorie scelte</dt><dd>${fmt.format(k.t)}</dd>
+        <dt>con CIN</dt><dd>${fmt.format(k.c)}</dd>
+        <dt>senza CIN</dt><dd>${fmt.format(k.t - k.c)}</dd>
+        <div class="sep"></div>
+        <dt>Residenti (${META.anni.popolazione || "n.d."})</dt><dd>${com[3] != null ? fmt.format(com[3]) : "n.d."}</dd>
+        <dt>Abitazioni (${META.anni.abitazioni || "n.d."})</dt><dd>${com[4] != null ? fmt.format(com[4]) : "n.d."}</dd>
+        <dt>di cui non occupate</dt><dd>${com[5] != null ? fmt.format(com[5]) : "n.d."}</dd>
+      </dl>
+      <div class="ratios">${ratio("res")}${ratio("abit")}${ratio("nonocc")}</div>
+      <div class="block"><div class="label">Andamento nel tempo</div><div id="spark-box"><p class="empty">Caricamento…</p></div></div>
+      <div class="block"><div class="label">Per sottocategoria</div>${table}</div>`;
+    drawSpark(code);
+  }
+
+  async function drawSpark(code) {
+    const target = $("spark-box");
+    const dates = META.istantanee;
+    if (dates.length < 2) {
+      target.innerHTML = `<p class="empty">Lo storico parte dal ${fmtDate(dates[0])}: la linea si allunga a ogni aggiornamento settimanale.</p>`;
+      return;
+    }
+    const snaps = await Promise.all(dates.map(getSnap));
+    if (state.focus !== code || !$("spark-box")) return;
+    const vals = snaps.map((s) => counts(code, s).n);
+    const W = 320, H = 64, P = 6;
+    const max = Math.max(1, ...vals), min = Math.min(...vals);
+    const x = (i) => P + (W - 2 * P) * (i / (vals.length - 1));
+    const y = (v) => H - P - (H - 2 * P) * ((v - min) / Math.max(1, max - min));
+    const pts = vals.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+    const last = vals.length - 1;
+    target.innerHTML = `
+      <svg class="spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Unità registrate per istantanea">
+        <polyline points="${P},${H - P} ${pts} ${x(last)},${H - P}" fill="var(--line)" fill-opacity="0.5" stroke="none"></polyline>
+        <polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="2" vector-effect="non-scaling-stroke"></polyline>
+        <circle cx="${x(last)}" cy="${y(vals[last])}" r="3.5" fill="var(--accent)"></circle>
+      </svg>
+      <p class="hint">${fmt.format(vals[0])} il ${fmtDate(dates[0])} → ${fmt.format(vals[last])} il ${fmtDate(dates[last])} (${CINS[state.cin].label.toLowerCase()})</p>`;
+  }
+
+  // Ricerca
+  function setupSearch() {
+    const input = $("search"), box = $("suggest");
+    const norm = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+    NAMES = [...FEATURES.values()].map((f) => ({ code: f.properties.id, name: f.properties.n, p: f.properties.p, key: norm(f.properties.n) }));
+    const close = () => { box.hidden = true; box.innerHTML = ""; };
+    input.addEventListener("input", () => {
+      const q = norm(input.value.trim());
+      if (q.length < 2) return close();
+      const hits = NAMES.filter((n) => n.key.includes(q)).sort((a, b) => a.key.indexOf(q) - b.key.indexOf(q) || a.key.length - b.key.length).slice(0, 8);
+      if (!hits.length) { box.innerHTML = `<button type="button" disabled>Nessun comune trovato</button>`; box.hidden = false; return; }
+      box.innerHTML = hits.map((h) => `<button type="button" data-code="${h.code}">${escapeHtml(h.name)} <small>${escapeHtml(h.p || "")}</small></button>`).join("");
+      box.hidden = false;
+    });
+    box.addEventListener("click", (e) => {
+      const b = e.target.closest("button[data-code]");
+      if (!b) return;
+      input.value = b.textContent.trim().replace(/\s+\S+$/, "");
+      close();
+      select(b.dataset.code, true);
+    });
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") { const b = box.querySelector("button[data-code]"); if (b) b.click(); }
+      if (e.key === "Escape") close();
+    });
+    document.addEventListener("click", (e) => { if (!e.target.closest(".search")) close(); });
+  }
+
+  async function init() {
+    loadPrefs();
+    try {
+      const [meta, comuni, topo] = await Promise.all([
+        getJSON("data/meta.json"), getJSON("data/comuni.json"), getJSON("data/confini.topo.json"),
+      ]);
+      META = meta; COMUNI = comuni;
+      state.date = META.aggiornato;
+      SNAP = await getSnap(state.date);
+      applyPreset("ampia");
+      $("y-pop").textContent = META.anni.popolazione || "n.d.";
+      $("y-abit").textContent = META.anni.abitazioni || "n.d.";
+      if (/github\.io$/.test(location.hostname) || location.protocol === "http:") $("dl").hidden = false;
+      buildControls();
+      buildMap(topo);
+      setupSearch();
+      status("");
+      refresh();
+    } catch (err) {
+      console.error(err);
+      status("Non riesco a caricare i dati della mappa. Ricarica la pagina; se il problema resta, i file in data/ potrebbero mancare.");
+    }
+  }
+  init();
+})();
+</script>
+<!--ARTIFACT-BODY-END-->
+</body>
+</html>

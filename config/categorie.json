@@ -1,0 +1,67 @@
+{
+  "_nota": "Etichette brevi e definizioni predefinite. I codici sono le sottocategorie ISTAT usate dalla BDSR. Le categorie A (alberghi) e B5 (agriturismi) sono escluse dalla mappa.",
+  "escludi_prefissi": ["A", "B5"],
+  "gruppi": [
+    {"id": "B4", "label": "Alloggi gestiti come impresa"},
+    {"id": "C", "label": "Alloggi privati, non imprenditoriali"},
+    {"id": "B", "label": "Altre strutture extralberghiere"}
+  ],
+  "etichette": {
+    "B401": "Camere annesse a ristorante",
+    "B402": "Residence e unità con servizi",
+    "B403": "Affittacamere",
+    "B404": "Case e appartamenti per vacanze",
+    "B405": "Unità abitative ammobiliate a uso turistico",
+    "B406": "Ospitalità in poche camere o 2 appartamenti",
+    "B407": "Bed and breakfast",
+    "C101": "Bed and breakfast",
+    "C201": "Affittacamere",
+    "C202": "Appartamenti e case",
+    "C203": "Ville e dimore di pregio",
+    "C204": "Altre locazioni turistiche",
+    "B101": "Campeggi e aree camper",
+    "B102": "Campeggi itineranti o mobili",
+    "B103": "Aree di sosta attrezzate",
+    "B104": "Aree di sosta presso privati",
+    "B201": "Villaggi turistici",
+    "B301": "Campeggi o villaggi (non specificato)",
+    "B302": "Campeggi con piazzole stagionali",
+    "B601": "Ostelli",
+    "B701": "Case per ferie",
+    "B702": "Case religiose di ospitalità",
+    "B704": "Strutture per la formazione",
+    "B705": "Colonie per ragazzi",
+    "B706": "Case per ferie gestite da privati",
+    "B707": "Strutture di associazioni",
+    "B708": "Soggiorni per anziani",
+    "B709": "Pensionati per studenti",
+    "B801": "Rifugi di montagna",
+    "B802": "Rifugi escursionistici",
+    "B803": "Rifugi e posti tappa",
+    "B804": "Bivacchi",
+    "B805": "Esercizi di alta montagna",
+    "B807": "Rifugi non custoditi",
+    "B901": "Strutture rurali",
+    "B902": "Residenze d'epoca extralberghiere",
+    "B903": "Marina resort",
+    "B904": "Ospitalità su barche in porto",
+    "B906": "Case sugli alberi",
+    "B909": "Albergo diffuso extralberghiero",
+    "B910": "Strutture riservate ai soci",
+    "B911": "Strutture sopraelevate",
+    "B912": "Barche a secco",
+    "B913": "Case galleggianti"
+  },
+  "preset": {
+    "ampia": {
+      "label": "Ampia",
+      "descrizione": "Tutto l'extralberghiero nelle case: appartamenti, camere e B&B, gestiti come impresa o da privati.",
+      "codici": ["B403", "B404", "B405", "B407", "C101", "C201", "C202", "C203", "C204"]
+    },
+    "stretta": {
+      "label": "Stretta",
+      "descrizione": "Solo abitazioni intere sottratte all'uso residenziale: niente camere e niente B&B.",
+      "codici": ["B404", "B405", "C202", "C203", "C204"]
+    }
+  }
+}
